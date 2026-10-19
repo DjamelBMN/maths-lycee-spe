@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maths Lycée — Spécialité Terminale (Programme Post-Réforme)</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="sidebar">
+            <div class="brand">
+                <div class="brand-icon">
+                    <i class="fa-solid fa-square-root-variable"></i>
+                </div>
+                <div class="brand-text">
+                    <h1>Maths Lycée</h1>
+                    <span class="badge-reforme">Réforme du Bac</span>
+                </div>
+            </div>
+
+            <!-- STREAM / CLASS SELECTOR -->
+            <div class="stream-selector-box">
+                <label><i class="fa-solid fa-graduation-cap"></i> Niveau & Parcours :</label>
+                <div class="stream-dropdown-container">
+                    <button class="stream-btn active" id="currentStreamBtn">
+                        <div class="stream-info">
+                            <span class="stream-title">Terminale Spé Maths</span>
+                            <span class="stream-sub">BO Spécialité (Coef. 16)</span>
+                        </div>
+                        <i class="fa-solid fa-circle-check stream-status-icon"></i>
+                    </button>
+                </div>
+                <button class="btn-text-sm" id="btnOpenCurriculumModal">
+                    <i class="fa-solid fa-sitemap"></i> Voir toutes les classes (1ère, 2nde...)
+                </button>
+            </div>
+
+            <!-- CHAPTERS LIST -->
+            <div class="sidebar-section">
+                <div class="section-header">
+                    <span>Chapitres au programme</span>
+                    <span class="badge-count" id="totalChaptersBadge">8</span>
+                </div>
+                <nav class="chapters-nav">
+                    <button class="chapter-item active" data-chapter="all">
+                        <div class="chapter-icon"><i class="fa-solid fa-layer-group"></i></div>
+                        <div class="chapter-text">
+                            <span class="chapter-title">Tous les chapitres</span>
+                            <span class="chapter-meta">Entraînement complet</span>
+                        </div>
+                    </button>
+                    <div id="chaptersListContainer">
+                        <!-- Rempli dynamiquement en JS -->
+                    </div>
+                </nav>
+            </div>
+
+            <!-- SCORE WIDGET IN SIDEBAR -->
+            <div class="sidebar-footer">
+                <div class="score-card">
+                    <div class="score-header">
+                        <span><i class="fa-solid fa-trophy text-amber"></i> Ma Progression</span>
+                        <button class="btn-icon" id="btnResetProgress" title="Réinitialiser le score"><i class="fa-solid fa-rotate-right"></i></button>
+                    </div>
+                    <div class="score-stats">
+                        <div class="stat-box">
+                            <span class="stat-val" id="statsCorrect">0</span>
+                            <span class="stat-lbl">Réussis</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-val" id="statsPoints">0</span>
+                            <span class="stat-lbl">Points</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-val" id="statsRate">0%</span>
+                            <span class="stat-lbl">Taux</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="main-content">
+            <!-- TOP NAVBAR -->
+            <header class="top-nav">
+                <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <div class="current-chapter-headline">
+                    <h2 id="currentChapterHeading">Tous les chapitres</h2>
+                    <p id="currentChapterSub">Terminale Spécialité Mathématiques — Conforme aux épreuves écrites du Bac</p>
+                </div>
+
+                <!-- FILTERS -->
+                <div class="nav-filters">
+                    <div class="filter-group">
+                        <span class="filter-label"><i class="fa-solid fa-filter"></i> Difficulté :</span>
+                        <div class="filter-pills" id="difficultyFilters">
+                            <button class="filter-pill active" data-diff="all">Toutes</button>
+                            <button class="filter-pill diff-easy" data-diff="1">Socle</button>
+                            <button class="filter-pill diff-medium" data-diff="2">Entraînement</button>
+                            <button class="filter-pill diff-hard" data-diff="3">Type Bac</button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- WORKSPACE CONTAINER -->
+            <div class="workspace">
+                <!-- EXERCISE CARD -->
+                <div class="exercise-card" id="exerciseCard">
+                    <!-- CARD HEADER -->
+                    <div class="exercise-header">
+                        <div class="exercise-badges">
+                            <span class="badge-chapter" id="exChapterBadge">Chapitre</span>
+                            <span class="badge-diff" id="exDiffBadge">Niveau</span>
+                            <span class="badge-points" id="exPointsBadge"><i class="fa-solid fa-award"></i> 15 pts</span>
+                        </div>
+                        <div class="exercise-nav-indicators">
+                            <span id="exPagination">Exercice 1 sur 10</span>
+                        </div>
+                    </div>
+
+                    <!-- EXERCISE TITLE & STATEMENT -->
+                    <div class="exercise-body">
+                        <h3 class="exercise-title" id="exTitle">Titre de l'exercice</h3>
+                        <div class="exercise-statement" id="exStatement">
+                            Chargement de l'exercice...
+                        </div>
+
+                        <!-- HINT & METHOD ACCORDIONS -->
+                        <div class="pedagogical-helpers">
+                            <div class="helper-accordion" id="hintAccordion">
+                                <button class="helper-toggle-btn" id="btnToggleHint">
+                                    <span><i class="fa-regular fa-lightbulb text-amber"></i> Besoin d'un indice ?</span>
+                                    <i class="fa-solid fa-chevron-down chevron"></i>
+                                </button>
+                                <div class="helper-content" id="hintContent">
+                                    <p id="hintText"></p>
+                                </div>
+                            </div>
+
+                            <div class="helper-accordion" id="methodAccordion">
+                                <button class="helper-toggle-btn" id="btnToggleMethod">
+                                    <span><i class="fa-solid fa-book-bookmark text-blue"></i> Rappel de cours & Méthode</span>
+                                    <i class="fa-solid fa-chevron-down chevron"></i>
+                                </button>
+                                <div class="helper-content" id="methodContent">
+                                    <p id="methodText"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- INTERACTIVE ANSWER ZONE -->
+                        <div class="answer-section" id="answerSection">
+                            <h4 class="answer-section-title">Votre réponse :</h4>
+                            <!-- Rempli dynamiquement (QCM ou Input libre) -->
+                            <div id="dynamicInputZone"></div>
+                        </div>
+
+                        <!-- FEEDBACK BANNER (SUCCESS / ERROR / EXPLANATION) -->
+                        <div class="feedback-banner hidden" id="feedbackBanner">
+                            <div class="feedback-header" id="feedbackHeader">
+                                <i class="feedback-icon" id="feedbackIcon"></i>
+                                <span class="feedback-title" id="feedbackTitle"></span>
+                            </div>
+                            <div class="feedback-explanation" id="feedbackExplanation">
+                                <!-- KaTeX rendered explanation -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CARD FOOTER / ACTIONS -->
+                    <div class="exercise-footer">
+                        <div class="footer-left">
+                            <button class="btn btn-outline" id="btnRevealSolution">
+                                <i class="fa-solid fa-eye"></i> Voir la solution
+                            </button>
+                        </div>
+                        <div class="footer-right">
+                            <button class="btn btn-primary" id="btnCheckAnswer">
+                                <i class="fa-solid fa-check"></i> Valider ma réponse
+                            </button>
+                            <button class="btn btn-secondary hidden" id="btnNextExercise">
+                                Exercice suivant <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- EMPTY STATE (SI AUCUN EXERCICE DISPONIBLE) -->
+                <div class="empty-state hidden" id="emptyState">
+                    <i class="fa-solid fa-folder-open empty-icon"></i>
+                    <h3>Aucun exercice ne correspond à ce filtre</h3>
+                    <p>Essayez de sélectionner un autre chapitre ou d'élargir le filtre de difficulté.</p>
+                    <button class="btn btn-primary" id="btnResetFilters">Réinitialiser les filtres</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- CURRICULUM OVERVIEW MODAL -->
+    <div class="modal-backdrop hidden" id="curriculumModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <i class="fa-solid fa-graduation-cap text-blue"></i>
+                    <h3>Organisation du Lycée (Réforme du Baccalauréat)</h3>
+                </div>
+                <button class="btn-close" id="btnCloseCurriculumModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-intro">
+                    L'application est conçue pour couvrir l'ensemble des filières du lycée post-réforme.
+                    Actuellement, la <strong>Terminale Spécialité Mathématiques</strong> est entièrement active et prête au test. Les autres classes seront débloquées lors de la phase suivante.
+                </p>
+                <div class="curriculum-tree" id="curriculumTreeContainer">
+                    <!-- Rempli dynamiquement -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="btnCloseCurriculumModal2">Fermer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP SCRIPT -->
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
+
