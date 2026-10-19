@@ -2,6 +2,9 @@
 
 Application web interactive (Frontend **HTML5 / CSS3 / JavaScript** + Backend **Python Flask**) conçue pour permettre aux lycéens de s'entraîner en mathématiques selon les programmes officiels du Ministère de l'Éducation Nationale (réforme du Baccalauréat).
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/DjamelBMN/maths-lycee-spe)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/DjamelBMN/maths-lycee-spe)
+
 Phase actuelle : **Terminale Spécialité Mathématiques** (Épreuve écrite coefficient 16).  
 *Une fois cette phase validée, les autres filières et niveaux (Première Spécialité, Seconde Générale, Maths Expertes, Maths Complémentaires, STMG/STI2D) seront débloqués via l'architecture modulaire existante.*
 
